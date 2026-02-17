@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="نباتا - تطبيق تعليمي ممتع للأطفال يساعد على الصلاة والورد اليومي والأذكار بطريقة محفزة." />
+  <title>نباتا - تطبيق تعليمي ممتع للأطفال</title>
+
+  <style>
+   
+    :root{
+      --bg1:#4CAF50;
+      --bg2:#2E7D32;
+
+      --brand:#2E7D32;
+      --brand2:#4CAF50;
+      --accent:#FFE66D;
+
+      --text:#1f2937;
+      --muted:#6b7280;
+
+      --card:#ffffff;
+      --soft:#E8F5E9;
+      --soft2:#C8E6C9;
+
+      --shadow: 0 10px 30px rgba(0,0,0,.14);
+      --shadow2: 0 14px 40px rgba(0,0,0,.18);
+
+      --radius-xl: 30px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+
+      --container: 1200px;
+
+      --focus: 0 0 0 4px rgba(255,230,109,.35);
+    }
+
+  
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body{
+      margin:0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--text);
+      background: linear-gradient(135deg, var(--bg1), var(--bg2));
+      overflow-x:hidden;
+      line-height: 1.6;
+    }
+    img{ max-width: 100%; display:block; }
+    a{ color: inherit; }
+
+    .container{
+      width: min(100% - 40px, var(--container));
+      margin-inline: auto;
+    }
+
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      html{ scroll-behavior: auto; }
+      *{ animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+    }
+
+    /* =========================
+        Animations
+       ========================= */
+    @keyframes floaty{
+      0%,100%{ transform: translateY(0); }
+      50%{ transform: translateY(-14px); }
+    }
+    @keyframes bouncey{
+      0%,100%{ transform: translateY(0); }
+      50%{ transform: translateY(-8px); }
+    }
+    @keyframes fadeUp{
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* =========================
+        Header
+       ========================= */
+    header{
+      background: linear-gradient(135deg, #2E7D32, #388E3C);
+      box-shadow: 0 4px 20px rgba(0,0,0,.10);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(10px);
+    }
+    .header-content{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 16px 0;
+      gap: 16px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      text-decoration:none;
+      color:#fff;
+    }
+    .brand__logo{
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      overflow:hidden;
+      box-shadow: 0 6px 18px rgba(0,0,0,.18);
+      flex: 0 0 auto;
+      background: rgba(255,255,255,.12);
+    }
+    .brand__text{
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: .2px;
+      text-shadow: 2px 2px 6px rgba(0,0,0,.18);
+    }
+    .brand__text span{ color: var(--accent); }
+
+    /* =========================
+       Hero
+       ========================= */
+    .hero{
+      padding: 70px 0 60px;
+      text-align:center;
+      color:#fff;
+    }
+    .hero h1{
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      margin: 18px 0 10px;
+      text-shadow: 3px 3px 10px rgba(0,0,0,.25);
+      animation: fadeUp 800ms ease both;
+    }
+    .hero p{
+      margin: 0 auto;
+      max-width: 58ch;
+      font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+      color: var(--accent);
+      animation: fadeUp 900ms ease both;
+      animation-delay: 120ms;
+    }
+
+    /* App icon image block */
+    .app-icon{
+      width: 200px;
+      height: 200px;
+      margin: 0 auto;
+      border-radius: 44px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #4CAF50, #8BC34A);
+      box-shadow: 0 10px 40px rgba(0,0,0,.30);
+      display:grid;
+      place-items:center;
+      animation: floaty 3.2s ease-in-out infinite;
+    }
+    .app-icon img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* =========================
+       Sections / Titles
+       ========================= */
+    .section{
+      background: var(--card);
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      margin-top: -28px;
+      padding: 56px 0;
+    }
+    .section--soft{
+      background: linear-gradient(135deg, var(--soft2), #A5D6A7);
+      border-radius: 0;
+    }
+    .section--plain{
+      background: var(--card);
+      border-radius: 0;
+    }
+
+    .section-title{
+      text-align:center;
+      font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+      color: var(--brand);
+      margin: 0 0 40px;
+      position:relative;
+    }
+    .section-title::after{
+      content:"";
+      display:block;
+      width: 96px;
+      height: 4px;
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--brand2), #8BC34A);
+      margin: 16px auto 0;
+    }
+
+    /* =========================
+      Download Buttons
+       ========================= */
+    .download-buttons{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 18px;
+      justify-content:center;
+      margin-bottom: 54px;
+    }
+    .btn{
+      display:flex;
+      align-items:center;
+      gap: 14px;
+      padding: 18px 26px;
+      border-radius: 18px;
+      text-decoration:none;
+      color:#fff;
+      font-weight: 800;
+      box-shadow: var(--shadow);
+      transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+      min-width: min(360px, 100%);
+      justify-content:center;
+      outline:none;
+    }
+    .btn:hover{ transform: translateY(-4px); box-shadow: var(--shadow2); }
+    .btn:focus-visible{ box-shadow: var(--shadow2), var(--focus); }
+
+    .btn__icon{ font-size: 1.8rem; }
+    .btn__meta{ text-align:right; }
+    .btn__meta small{ display:block; opacity:.9; font-weight:600; }
+    .btn__meta span{ display:block; font-size: 1.1rem; }
+
+    .btn--gp{ background: linear-gradient(135deg, #34A853, #4285F4); }
+    .btn--ss{ background: linear-gradient(135deg, #1428A0, #5C7CFA); }
+    .btn--dl{ background: linear-gradient(135deg, #FF9800, #F57C00); }
+
+    /* =========================
+     Feature cards grid
+       ========================= */
+    .features-grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
+    }
+    .feature-card{
+      background: linear-gradient(135deg, var(--brand2), var(--brand));
+      color:#fff;
+      padding: 30px 22px;
+      border-radius: var(--radius-lg);
+      text-align:center;
+      box-shadow: var(--shadow);
+      transition: transform .2s ease;
+    }
+    .feature-card:hover{ transform: translateY(-8px); }
+    .feature-icon{
+      font-size: 2.6rem;
+      margin-bottom: 14px;
+      animation: bouncey 2.2s ease-in-out infinite;
+    }
+    .feature-card h3{ margin: 0 0 8px; font-size: 1.25rem; }
+    .feature-card p{ margin:0; opacity:.92; }
+
+    /* =========================
+      Islamic features
+       ========================= */
+    .islamic-features{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+    }
+    .islamic-feature{
+      background: linear-gradient(135deg, var(--soft), var(--soft2));
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      display:flex;
+      gap: 16px;
+      align-items:flex-start;
+      box-shadow: 0 8px 20px rgba(0,0,0,.10);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .islamic-feature:hover{ transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,.14); }
+
+    .islamic-icon{
+      width: 74px;
+      height: 74px;
+      border-radius: 18px;
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+      font-size: 2.2rem;
+      background: linear-gradient(135deg, var(--brand2), #8BC34A);
+      box-shadow: 0 4px 15px rgba(76,175,80,.28);
+    }
+    .islamic-content h3{
+      margin: 0 0 6px;
+      color: var(--brand);
+      font-size: 1.2rem;
+    }
+    .islamic-content p{
+      margin:0;
+      color: #374151;
+    }
+
+    /* =========================
+     Steps
+       ========================= */
+    .steps-container{
+      width: min(100% - 40px, 1000px);
+      margin-inline: auto;
+    }
+    .step{
+      background:#fff;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      box-shadow: 0 8px 20px rgba(0,0,0,.10);
+      display:flex;
+      gap: 18px;
+      align-items:center;
+      transition: transform .2s ease;
+    }
+    .step + .step{ margin-top: 16px; }
+    .step:hover{ transform: translateX(-8px); }
+
+    .step-number{
+      width: 64px;
+      height: 64px;
+      border-radius: 999px;
+      display:grid;
+      place-items:center;
+      background: linear-gradient(135deg, var(--brand2), #66BB6A);
+      color:#fff;
+      font-weight:900;
+      font-size: 1.6rem;
+      box-shadow: 0 4px 15px rgba(76,175,80,.35);
+      flex: 0 0 auto;
+    }
+    .step-content h3{
+      margin: 0 0 6px;
+      color: var(--brand);
+      font-size: 1.15rem;
+    }
+    .step-content p{ margin:0; color: var(--muted); }
+
+    /* =========================
+      Footer
+       ========================= */
+    footer{
+      background: linear-gradient(135deg, #2C3E50, #34495E);
+      color:#fff;
+      text-align:center;
+      padding: 34px 20px;
+    }
+    footer p{ margin: 6px 0; }
+    .footer-heart{ color: var(--brand2); animation: bouncey 1.1s ease-in-out infinite; }
+
+    /* =========================
+     Responsive tweaks
+       ========================= */
+    @media (max-width: 768px){
+      .header-content{ padding: 14px 0; }
+      .app-icon{ width: 170px; height: 170px; border-radius: 38px; }
+      .step{ flex-direction: column; text-align:center; }
+      .step:hover{ transform: translateY(-6px); }
+      .btn__meta{ text-align:center; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container header-content">
+      <a class="brand" href="#top" aria-label="العودة لأعلى الصفحة">
+        
+        <span class="brand__logo" aria-hidden="true">
+          <img src="assets/images/logo.png" alt="شعار التطبيق" />
+        </span>
+        <span class="brand__text"><span>نباتا</span></span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <main id="top">
+    <section class="hero">
+      <div class="container">
+        <div class="app-icon" aria-label="أيقونة تطبيق نباتا">
+          
+          <img src="assets/images/App.ico" alt="أيقونة تطبيق نباتا" />
+        </div>
+
+        <h1>تطبيق نباتا</h1>
+        <p>رفيق طفلك المسلم في رحلة الإيمان والعبادة 🌙✨</p>
+      </div>
+    </section>
+
+    <!-- Download  -->
+    <section class="section" aria-labelledby="download-title">
+      <div class="container">
+        <h2 class="section-title" id="download-title">حمّل التطبيق الآن</h2>
+
+        <div class="download-buttons">
+          
+          <a class="btn btn--gp" href="#" target="_blank" rel="noopener">
+            <span class="btn__icon" aria-hidden="true">📱</span>
+            <span class="btn__meta">
+              <small>متاح على</small>
+              <span>متجر جوجل بلاي</span>
+            </span>
+          </a>
+
+          <a class="btn btn--ss" href="#" target="_blank" rel="noopener">
+            <span class="btn__icon" aria-hidden="true">🛒</span>
+            <span class="btn__meta">
+              <small>متاح على</small>
+              <span>متجر سامسونج</span>
+            </span>
+          </a>
+
+          <a class="btn btn--dl" href="#" target="_blank" rel="noopener">
+            <span class="btn__icon" aria-hidden="true">⬇️</span>
+            <span class="btn__meta">
+              <small>أو</small>
+              <span>تحميل مباشر</span>
+            </span>
+          </a>
+        </div>
+
+        <div class="features-grid" id="features">
+          <article class="feature-card reveal">
+            <div class="feature-icon" aria-hidden="true">🕌</div>
+            <h3>مواقيت الصلاة</h3>
+            <p>تنبيهات تذكير بمواعيد الصلاة بصوت مشجع</p>
+          </article>
+
+          <article class="feature-card reveal">
+            <div class="feature-icon" aria-hidden="true">📖</div>
+            <h3>الورد اليومي</h3>
+            <p>قراءة يومية من القرآن الكريم بطريقة ممتعة</p>
+          </article>
+
+          <article class="feature-card reveal">
+            <div class="feature-icon" aria-hidden="true">📿</div>
+            <h3>التسبيح والأذكار</h3>
+            <p>مسبحة إلكترونية وأذكار الصباح والمساء</p>
+          </article>
+
+          <article class="feature-card reveal">
+            <div class="feature-icon" aria-hidden="true">🎭</div>
+            <h3>شخصية محببة</h3>
+            <p>صديق كرتوني يشجع طفلك على العبادات</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Islamic features -->
+    <section class="section section--plain" aria-labelledby="islamic-title">
+      <div class="container">
+        <h2 class="section-title" id="islamic-title">مميزات تطبيق نباتا الإسلامي 🌟</h2>
+
+        <div class="islamic-features">
+          <article class="islamic-feature reveal">
+            <div class="islamic-icon" aria-hidden="true">🕋</div>
+            <div class="islamic-content">
+              <h3>إشعارات مواقيت الصلاة</h3>
+              <p>تذكير لطيف بأوقات الصلوات الخمس مع أصوات تشجيعية من الشخصية المحببة لطفلك.</p>
+            </div>
+          </article>
+
+          <article class="islamic-feature reveal">
+            <div class="islamic-icon" aria-hidden="true">📗</div>
+            <div class="islamic-content">
+              <h3>الورد القرآني اليومي</h3>
+              <p>مقدار يومي مناسب لعمر الطفل مع مكافآت عند إتمام القراءة.</p>
+            </div>
+          </article>
+
+          <article class="islamic-feature reveal">
+            <div class="islamic-icon" aria-hidden="true">🤲</div>
+            <div class="islamic-content">
+              <h3>الأذكار اليومية</h3>
+              <p>أذكار الصباح والمساء وأذكار النوم والاستيقاظ بأسلوب تفاعلي يحبه الأطفال.</p>
+            </div>
+          </article>
+
+          <article class="islamic-feature reveal">
+            <div class="islamic-icon" aria-hidden="true">📿</div>
+            <div class="islamic-content">
+              <h3>المسبحة الإلكترونية</h3>
+              <p>مسبحة رقمية بعداد تلقائي وتجربة مريحة ومناسبة للأطفال.</p>
+            </div>
+          </article>
+
+          <article class="islamic-feature reveal">
+            <div class="islamic-icon" aria-hidden="true">🎪</div>
+            <div class="islamic-content">
+              <h3>الصديق المشجع</h3>
+              <p>شخصية محببة ترافق طفلك وتشجعه على المحافظة على العبادات بكلمات لطيفة ومحفزة.</p>
+            </div>
+          </article>
+
+          <article class="islamic-feature reveal">
+            <div class="islamic-icon" aria-hidden="true">🏆</div>
+            <div class="islamic-content">
+              <h3>نظام المكافآت</h3>
+              <p>شارات وجوائز تحفيزية عند المواظبة على الصلاة والقراءة والأذكار.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Steps -->
+    <section class="section section--soft" aria-labelledby="steps-title">
+      <div class="steps-container">
+        <h2 class="section-title" id="steps-title" style="color:#2E7D32;">خطوات التثبيت</h2>
+
+        <div class="step reveal">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3>اختر المتجر المناسب</h3>
+            <p>اضغط على زر التحميل من المتجر الذي تفضله (جوجل بلاي، سامسونج، أو التحميل المباشر).</p>
+          </div>
+        </div>
+
+        <div class="step reveal">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3>حمّل التطبيق</h3>
+            <p>انتظر حتى يكتمل التحميل. قد يستغرق ذلك بضع دقائق حسب سرعة الإنترنت.</p>
+          </div>
+        </div>
+
+        <div class="step reveal">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3>ثبّت التطبيق</h3>
+            <p>اضغط على زر التثبيت وقد تحتاج للموافقة على بعض الأذونات حسب إعدادات جهازك.</p>
+          </div>
+        </div>
+
+        <div class="step reveal">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h3>افتح واستمتع!</h3>
+            <p>افتح التطبيق وابدأ رحلة التعلم الممتعة مع نباتا 🎉</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>جميع الحقوق محفوظة © 2024 - تطبيق نباتا</p>
+    <p>صُنع بكل <span class="footer-heart">❤️</span> للأطفال</p>
+  </footer>
+
+  <script>
+    (function () {
+      // Reveal on scroll 
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const revealEls = document.querySelectorAll(".reveal, .btn");
+
+      // Initial state
+      revealEls.forEach(el => {
+        el.style.opacity = "0";
+        el.style.transform = "translateY(14px)";
+        el.style.transition = "opacity .6s ease, transform .6s ease";
+      });
+
+      if (prefersReducedMotion) {
+        revealEls.forEach(el => {
+          el.style.opacity = "1";
+          el.style.transform = "none";
+        });
+        return;
+      }
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          entry.target.style.opacity = "1";
+          entry.target.style.transform = "none";
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.12, rootMargin: "0px 0px -60px 0px" });
+
+      revealEls.forEach(el => observer.observe(el));
+    })();
+  </script>
+</body>
+</html>
